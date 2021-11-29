@@ -17,11 +17,12 @@ from app import db
 from app.udaconnect.models import Location
 from app.udaconnect.schemas import LocationSchema
 from geoalchemy2.functions import ST_AsText, ST_Point
+from kafka import KafkaProducer
 from sqlalchemy.sql import text
 
-logging.basicConfig(level=logging.WARNING)
-logger = logging.getLogger("Location service for UdaConnect")
 
+kafka_franz = 'udaconnect'
+kafka_server = 'kafka.default.svc.cluster.local:9092'
 
 class LocationService:
     @staticmethod
@@ -41,12 +42,28 @@ class LocationService:
         if validation_results:
             logger.warning(f"Unexpected data format in payload: {validation_results}")
             raise Exception(f"Invalid payload: {validation_results}")
-
-        new_location = Location()
-        new_location.person_id = location["person_id"]
-        new_location.creation_time = location["creation_time"]
-        new_location.coordinate = ST_Point(location["latitude"], location["longitude"])
-        db.session.add(new_location)
-        db.session.commit()
+        try:
+            kafka_maker.send(kafka_franz, json.dumps(location).encode())
+            kafka_maker.flush()
+            logger.info('Location created successfully.')
+            # If reaching out Kafka with the new location data, we do not store
+            # the location into our database. This is a cool feature, since
+            # when an error occurs, we just pass the location data again without
+            # worrying or handling database data duplications.
+            new_location = Location()
+            new_location.person_id = location["person_id"]
+            new_location.creation_time = location["creation_time"]
+            new_location.coordinate = ST_Point(location["latitude"],
+                                               location["longitude"])
+            db.session.add(new_location)
+            db.session.commit()
+            logger.info('Location stored successfully.')
+        except KafkaTimeoutError:
+            logger.error('Something went wrong. Timeout error occured during person creation process.')
 
         return new_location
+
+
+logging.basicConfig(level=logging.WARNING)
+logger = logging.getLogger("Location service for UdaConnect")
+kafka_maker = KafkaProducer(bootstrap_servers=KAFKA_SERVER)

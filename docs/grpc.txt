@@ -1,0 +1,18 @@
+GRPC service runs locally and available originally at localhost:5005, but we
+use k8s (Kubernetes) service that modifies the route to localhost:30003.
+
+You can get all gRPC-related files in the ./udaconnect/modules/api/grpc_service/
+directory.
+
+You should know, that gRPC service is wrapped into a Kafka service. If you want
+to test the funcionality, please go through the enxt steps:
+1. get the latest version of grpc-service from Docker
+   richardvecsey/udaconnect-grpc:latest
+   You can check the route in the ./deployment/udaconnect-grpc-service.yaml
+   Requirements are in the ./modules/grpc/requirements.txt
+2. navigate to the grpc-service environment
+3. run the grpc_text.py (./modules/grpc/grpc_test.py) after the wsgi.py
+   without Docker container
+   or
+   run the commands from grpc_text.py if you are using a Docker container
+4. service is available at localhost:5005 or localhost:30003

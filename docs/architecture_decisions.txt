@@ -1,0 +1,30 @@
+01. REST API
+A RESTful API provides a generic communication interface over HTTP protocol.
+This is a very common and well known solution in a web-based development.
+In my case REST API works under the location service (loc-service) and the
+person and connection service (person-connect-service). Slicing these services
+into two parts reduce the loads on server. Since those services runs different
+nodes, they could contains the necessary codes. Removing the unnecessary parts
+of the original `monolith` code results a readable code with better performance.
+
+02. Kafka
+Kafka is a messaging technique. When it came out during the lessons, I was
+really surprised that it can be used easiliy for various tasks. However, I read
+two articles (links are under this section) about the pros and cons of Kafka.
+It is useful when real time logging is necessary. It help to reduce data loss
+even if a huge data load occurs.
+
+Article 1:
+https://www.upsolver.com/blog/apache-kafka-use-cases-when-to-use-not
+
+Article 2:
+https://medium.com/swlh/why-should-anyone-use-apache-kafka-f2b632d0963c
+
+03. gRPC
+Why gRPC? I can answer it with one word only: Google. Protobuf messaging or
+data transfer technology and gRPC provides high performance. It has a good
+support. Sending data with these technology results smaller data package and
+a well structere data format at the same time.
+This article helped me a lot when I had to decided between the different
+optimization techniques:
+https://cloud.google.com/blog/products/api-management/understanding-grpc-openapi-and-rest-and-when-to-use-them

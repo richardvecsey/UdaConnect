@@ -29,8 +29,8 @@ def locating(location):
     locations = location_pb2.LocationsMessage(
                 person_id=location['person_id'],
                 creation_time=location['creation_time'],
-                lat=location['lat'],
-                long=location['long'])
+                latitude=location['latitude'],
+                longitude=location['longitude'])
     lstub.Create(locations)
     logger.info('Sending `location` data to Kafka.')
 
@@ -54,13 +54,13 @@ db.init_app(app)
 consumer = KafkaConsumer(kafka_franz, bootstrap_servers=[kafka_server])
 
 for message in consumer:
-    msg_data = json.loads((message.value.decode('utf-8')))
+    msg_data = json.loads(message.value.decode('utf-8'))
 
     if 'first_name' in msg_data and 'last_name' in msg_data:
         personating(msg_data)
-    elif 'lat' in msg_data:
+    elif 'latitude' in msg_data:
         locating(msg_data)
-    elif 'long' in msg_data:
+    elif 'longitude' in msg_data:
         locating(msg_data)
     else:
         logger.error('Failed to process the content of the message.')

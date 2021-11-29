@@ -45,13 +45,12 @@ class ConnectionService:
         data = []
         for location in locations:
             data.append(
-                {
-                    "person_id": person_id,
-                    "longitude": location.longitude,
-                    "latitude": location.latitude,
-                    "meters": meters,
-                    "start_date": start_date.strftime("%Y-%m-%d"),
-                    "end_date": (end_date + timedelta(days=1)).strftime("%Y-%m-%d"),
+                {"person_id": person_id,
+                "longitude": location.longitude,
+                "latitude": location.latitude,
+                "meters": meters,
+                "start_date": start_date.strftime("%Y-%m-%d"),
+                "end_date": (end_date + timedelta(days=1)).strftime("%Y-%m-%d"),
                 }
             )
 

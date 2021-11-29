@@ -29,8 +29,8 @@ class LocationsServicer(location_pb2_grpc.LocationServiceServicer):
 
         request_data = {'person_id': request.person_id,
                         'creation_time': request.creation_time,
-                        'lat': request.lat,
-                        'long': request.long,}
+                        'latitude': request.latitude,
+                        'longitude': request.longitude,}
 
         loc = location_pb2.LocationsMessage(**request_data)
         logger.info('Server got a protobuf `location` message {}'.format(loc))
@@ -38,7 +38,7 @@ class LocationsServicer(location_pb2_grpc.LocationServiceServicer):
         new_loc_obj = Location()
         new_loc_obj.person_id = loc.person_id
         new_loc_obj.creation_time = loc.creation_time
-        new_loc_obj.coordinate = ST_Point(loc.lat, loc.long)
+        new_loc_obj.coordinate = ST_Point(loc.latitude, loc.longitude)
 
         with app.app_context():
             db.session.add(new_loc_obj)
