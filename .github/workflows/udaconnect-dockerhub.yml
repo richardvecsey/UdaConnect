@@ -1,4 +1,4 @@
-name: UdaConnect - Package with Docker
+name: udaconnect - Package with Docker
 on:
   push:
     branches:
@@ -25,25 +25,25 @@ jobs:
           context: ./modules/consumer
           file: ./modules/consumer/Dockerfile
           push: true
-          tags: richardvecsey/UdaConnect:latest
+          tags: richardvecsey/udaconnect:latest
       - name: Build and push (grpc-service)
         uses: docker/build-push-action@v2
         with:
           context: ./modules/grpc
           file: ./modules/grpc/Dockerfile
           push: true
-          tags: richardvecsey/UdaConnect:latest
+          tags: richardvecsey/udaconnect:latest
       - name: Build and push (loc-service)
         uses: docker/build-push-action@v2
         with:
           context: ./modules/loc
           file: ./modules/loc/Dockerfile
           push: true
-          tags: richardvecsey/UdaConnect:latest
+          tags: richardvecsey/udaconnect:latest
       - name: Build and push (person-connect-service)
         uses: docker/build-push-action@v2
         with:
           context: ./modules/person-connect
           file: ./modules/person-connect/Dockerfile
           push: true
-          tags: richardvecsey/UdaConnect:latest
+          tags: richardvecsey/udaconnect:latest
