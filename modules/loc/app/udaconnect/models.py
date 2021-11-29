@@ -1,0 +1,56 @@
+########################################
+# Location microservice for UdaConnect #
+########################################
+
+# Unnecessary comments are removed
+# Unnecessary imports are removed
+# Person and Connection classes are removed
+
+# importing annotations is removed since it is not used
+# from __future__ import annotations
+
+# from dataclasses import dataclass
+from datetime import datetime
+
+from app import db
+from geoalchemy2 import Geometry
+from geoalchemy2.shape import to_shape
+from shapely.geometry.point import Point
+from sqlalchemy import BigInteger, Column, DateTime, ForeignKey, Integer, String, # Date
+# from sqlalchemy.dialects.postgresql import JSONB, UUID
+from sqlalchemy.ext.hybrid import hybrid_property
+
+
+class Location(db.Model):
+    __tablename__ = "location"
+
+    id = Column(BigInteger, primary_key=True)
+    person_id = Column(Integer, ForeignKey(Person.id), nullable=False)
+    coordinate = Column(Geometry("POINT"), nullable=False)
+    creation_time = Column(DateTime, nullable=False, default=datetime.utcnow)
+    _wkt_shape: str = None
+
+    @property
+    def wkt_shape(self) -> str:
+        if not self._wkt_shape:
+            point: Point = to_shape(self.coordinate)
+            self._wkt_shape = point.to_wkt().replace("POINT ", "ST_POINT")
+        return self._wkt_shape
+
+    @wkt_shape.setter
+    def wkt_shape(self, v: str) -> None:
+        self._wkt_shape = v
+
+    def set_wkt_with_coords(self, lat: str, long: str) -> str:
+        self._wkt_shape = f"ST_POINT({lat} {long})"
+        return self._wkt_shape
+
+    @hybrid_property
+    def longitude(self) -> str:
+        coord_text = self.wkt_shape
+        return coord_text[coord_text.find(" ") + 1 : coord_text.find(")")]
+
+    @hybrid_property
+    def latitude(self) -> str:
+        coord_text = self.wkt_shape
+        return coord_text[coord_text.find("(") + 1 : coord_text.find(" ")]

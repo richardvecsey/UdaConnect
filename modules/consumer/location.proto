@@ -1,0 +1,16 @@
+/* Consumer microservice for UdaConnect */
+
+syntax = "proto3";
+
+message LocationMessage {
+    int32 person_id = 1;
+    string creation_time = 2;
+    string lat = 3;
+    string long = 4;
+}
+
+
+
+service LocationService {
+    rpc Create(LocationMessage) returns (LocationMessage);
+}
