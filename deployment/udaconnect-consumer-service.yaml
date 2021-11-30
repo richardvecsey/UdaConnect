@@ -8,10 +8,6 @@ metadata:
 
     service: udaconnect-consumer-service
 
-    author: richardvecsey
-
-    repository: github.com/richardvecsey/UdaConnect
-
   name: udaconnect-consumer-service
 
 spec:
@@ -43,10 +39,6 @@ metadata:
   labels:
 
     service: udaconnect-consumer-service
-
-    author: richardvecsey
-
-    repository: github.com/richardvecsey/UdaConnect
 
   name: udaconnect-consumer-service
 

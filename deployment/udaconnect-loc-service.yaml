@@ -8,10 +8,6 @@ metadata:
 
     service: udaconnect-loc-service
 
-    author: richardvecsey
-
-    repository: github.com/richardvecsey/UdaConnect
-
   name: udaconnect-location-api
 
 spec:
@@ -43,10 +39,6 @@ metadata:
   labels:
 
     service: udaconnect-loc-service
-
-    author: richardvecsey
-
-    repository: github.com/richardvecsey/UdaConnect
 
   name: udaconnect-loc-service
 

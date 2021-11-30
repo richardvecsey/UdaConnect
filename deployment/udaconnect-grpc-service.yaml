@@ -8,10 +8,6 @@ metadata:
 
     service: udaconnect-grpc-service
 
-    author: richardvecsey
-
-    repository: github.com/richardvecsey/UdaConnect
-
   name: udaconnect-grpc-service
 
 spec:
@@ -43,10 +39,6 @@ metadata:
   labels:
 
     service: udaconnect-grpc-service
-
-    author: richardvecsey
-
-    repository: github.com/richardvecsey/UdaConnect
 
   name: udaconnect-grpc-service
 
